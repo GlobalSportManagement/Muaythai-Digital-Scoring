@@ -1,4 +1,4 @@
-const CACHE = 'mt-scoring-v16';
+const CACHE = 'mt-scoring-v17';
 const ASSETS = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {
