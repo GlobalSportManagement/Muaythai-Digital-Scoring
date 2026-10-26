@@ -59,7 +59,7 @@ a {
   padding:48px 22px
 }
 .pad {
-  max-width:760px;
+  max-width:none;
   margin:0 auto;
   padding:16px
 }
@@ -672,6 +672,200 @@ body.kiosk #cr {
   border-radius:20px;
   display:none
 }
+/* ===== RESPONSIF: HP, iPad/tablet, laptop, monitor besar =====
+   Tampilan non-TV (admin, monitor, petugas waktu, halaman awal) membesar bertahap mengikuti ukuran layar.
+   Dua syarat (lebar DAN tinggi) dipakai supaya laptop berlayar pendek tidak jadi terlalu besar. */
+html {
+  -webkit-text-size-adjust:100%;
+  text-size-adjust:100%
+}
+.pad {
+  padding-left:max(clamp(12px,2.2vw,40px),env(safe-area-inset-left));
+  padding-right:max(clamp(12px,2.2vw,40px),env(safe-area-inset-right));
+  padding-bottom:max(16px,env(safe-area-inset-bottom))
+}
+.pad table {
+  display:block;
+  max-width:100%;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch
+}
+img,video {
+  max-width:100%
+}
+@media(min-width:768px) {
+  .pad {
+    padding-top:22px;
+    zoom:1.1
+  }
+  .box {
+    zoom:1.1
+  }
+}
+@media(min-width:1100px) and (min-height:720px) {
+  .pad {
+    zoom:1.2
+  }
+  .box {
+    zoom:1.25
+  }
+}
+@media(min-width:1400px) and (min-height:860px) {
+  .pad {
+    zoom:1.35
+  }
+  .box {
+    zoom:1.4
+  }
+}
+@media(min-width:1800px) and (min-height:980px) {
+  .pad {
+    zoom:1.55
+  }
+  .box {
+    zoom:1.6
+  }
+}
+@media(max-width:520px) {
+  .pad {
+    padding-top:10px;
+    padding-left:max(12px,env(safe-area-inset-left));
+    padding-right:max(12px,env(safe-area-inset-right))
+  }
+  .box {
+    padding:32px 16px
+  }
+  .bar {
+    gap:8px
+  }
+}
+@media(pointer:coarse) {
+  button {
+    min-height:44px
+  }
+  input,select,textarea {
+    font-size:16px
+  }
+}
+/* layar juri: tombol & teks ikut ukuran layar (HP kecil sampai iPad) */
+.cn,.mn {
+  width:clamp(54px,9vmin,92px);
+  height:clamp(54px,9vmin,92px);
+  bottom:max(14px,env(safe-area-inset-bottom));
+  font-size:clamp(26px,4.6vmin,46px)
+}
+.mn {
+  width:auto;
+  height:clamp(44px,7vmin,72px);
+  padding:0 clamp(14px,3vmin,30px);
+  font-size:clamp(15px,2.6vmin,26px)
+}
+.top {
+  top:max(10px,env(safe-area-inset-top));
+  font-size:clamp(15px,3vmin,28px)
+}
+.jlogo {
+  width:clamp(38px,7vmin,80px)
+}
+/* petugas waktu: ukuran mengikuti TINGGI layar (HP, iPad, laptop, monitor besar), bukan di-zoom */
+.pad.tmpad {
+  zoom:1 !important;
+  max-width:none
+}
+.tmpad .bar {
+  font-size:clamp(13px,1.9vh,20px)
+}
+.tmpad .hlogo {
+  height:clamp(30px,4.4vh,52px)
+}
+.tm {
+  max-width:none
+}
+.tm .card {
+  font-size:clamp(15px,2.3vh,26px)
+}
+.tm .tot b {
+  font-size:min(24vw,16vh) !important
+}
+.tm .tot span {
+  font-size:clamp(14px,2.2vh,24px)
+}
+.tm .tmx button {
+  font-size:clamp(15px,2.2vh,24px);
+  padding:clamp(10px,1.4vh,18px) clamp(16px,2.4vh,30px)
+}
+.tm .tmb {
+  padding:clamp(16px,2.6vh,32px) 16px;
+  font-size:clamp(20px,3.2vh,36px)
+}
+.tm .tml {
+  font-size:clamp(13px,1.8vh,20px)
+}
+/* ===== MENGISI LAYAR: kolom otomatis menyesuaikan lebar (admin, monitor, petugas waktu) ===== */
+.pad.adm {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(390px,100%),1fr));
+  gap:0 20px;
+  align-items:start
+}
+.pad.adm > .bar,.pad.adm > #pins,.pad.adm > #live,.pad.adm > details.wide {
+  grid-column:1 / -1
+}
+.pad.adm > * {
+  min-width:0
+}
+@media(max-width:520px) {
+  .pad.adm {
+    display:block
+  }
+  .jr {
+    gap:6px;
+    padding:10px
+  }
+  .jr button {
+    padding:10px 12px;
+    margin:0;
+    min-width:40px
+  }
+}
+.bd {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(400px,100%),1fr));
+  gap:0 28px;
+  align-items:start
+}
+.bd > * {
+  min-width:0
+}
+.tm {
+  display:grid;
+  grid-template-columns:1fr;
+  gap:0 clamp(16px,3vw,48px);
+  align-content:start
+}
+.tm > div {
+  min-width:0
+}
+@media(orientation:landscape) and (min-width:800px) {
+  .tm {
+    grid-template-columns:1.2fr 1fr;
+    align-items:center;
+    min-height:calc(100vh - clamp(90px,14vh,140px))
+  }
+  .tm .tot b {
+    font-size:min(15vw,30vh) !important
+  }
+  .tm .card {
+    font-size:clamp(16px,3vh,30px)
+  }
+  .tm .tmb {
+    padding:clamp(18px,4.2vh,44px) 16px;
+    font-size:clamp(22px,4.4vh,46px)
+  }
+  .tm .tmx button {
+    font-size:clamp(16px,3vh,30px)
+  }
+}
 @media print {
   .noprint {
     display:none
@@ -916,7 +1110,7 @@ function boot() {
     if (saved()) resume();
 }
 const GSM_LOGO = 'data:image/png;base64,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'; // logo permanen di pojok kanan atas layar TV
-const BUILD = 'timer-1'; // penanda versi halaman; dilaporkan layar TV ke server supaya admin bisa melihat TV memakai versi yang mana
+const BUILD = 'fill-1'; // penanda versi halaman; dilaporkan layar TV ke server supaya admin bisa melihat TV memakai versi yang mana
 const SK = 'ms_sess';
 const saved = () => { try { return JSON.parse(localStorage.getItem(SK) || 'null'); } catch (e) { return null; } };
 function forget() { try { localStorage.removeItem(SK); } catch (e) {} home(); }
@@ -941,7 +1135,7 @@ function start() {
     else if (R == 'tv')
         A.innerHTML = '<div id=tv><img id=tvlogo alt="" src="' + GSM_LOGO + '"><a class=tvback onclick=leave(home)>‹ Kembali</a><div class=logos id=lgs></div><div id=tvb style="display:contents"></div></div>';
     else if (R == 'timer')
-        A.innerHTML = `<div class=pad><div class=bar><span class=hrow><img class=hlogo alt="" src="${GSM_LOGO}"><b>Petugas waktu</b></span>${BK}</div><div id=tmr></div></div>`;
+        A.innerHTML = `<div class="pad tmpad"><div class=bar><span class=hrow><img class=hlogo alt="" src="${GSM_LOGO}"><b>Petugas waktu</b></span>${BK}</div><div id=tmr></div></div>`;
     else
         judge();
     tick();
@@ -1037,28 +1231,28 @@ function ptimer() { // tampilan minimalis: 1 tombol utama (Mulai / Stop / Lanjut
         m = { t: 'Lanjutkan', a: 'resume', msg: 'Waktu dilanjutkan', off: rr, pri: true };
     const nextOff = s.round >= 3 || rr || (!d && !run);
     const restOn = rr || ((d || up) && s.round < 3);
-    $('#tmr').innerHTML = `<div class=tm><div class=card><b>${esc(s.name)}</b><br>${b.no ? 'Partai ' + esc(b.no) + ' · ' : ''}Ronde ${s.round} dari 3${d ? ' (selesai)' : ''}</div>
+    $('#tmr').innerHTML = `<div class=tm><div><div class=card><b>${esc(s.name)}</b><br>${b.no ? 'Partai ' + esc(b.no) + ' · ' : ''}Ronde ${s.round} dari 3${d ? ' (selesai)' : ''}</div>
  <div class=tot style="text-align:center"><div><b style="display:block">${rr ? fmt(rl) : run ? timer(s) : fmt(s.dur)}</b><span class=mut>${rr ? (rl ? 'Istirahat berjalan' : 'Istirahat selesai') : run ? (paused ? 'Waktu dihentikan' : up ? 'Waktu habis' : 'Berjalan') : d ? 'Ronde selesai' : 'Belum dimulai'}</span></div></div>
- <div class=tmx><button onclick="ad({a:'${rr ? 'radj' : 'adj'}',d:-10})" ${rr || run ? '' : 'disabled'}>−10 dtk</button> <button onclick="ad({a:'${rr ? 'radj' : 'adj'}',d:10})" ${rr || run ? '' : 'disabled'}>+10 dtk</button></div>
+ </div><div><div class=tmx><button onclick="ad({a:'${rr ? 'radj' : 'adj'}',d:-10})" ${rr || run ? '' : 'disabled'}>−10 dtk</button> <button onclick="ad({a:'${rr ? 'radj' : 'adj'}',d:10})" ${rr || run ? '' : 'disabled'}>+10 dtk</button></div>
  <button class="tmb ${m.pri ? 'pri' : ''}" onclick="ad({a:'${m.a}'},'${m.msg}')" ${m.off ? 'disabled' : ''}>${m.t}</button>
  <button class=tmb onclick="tmNext()" ${nextOff ? 'disabled' : ''}>Ronde berikutnya</button>
  <button class=tmb onclick="ad({a:'${rr ? 'rstop' : 'rest'}'},'${rr ? 'Istirahat dihentikan' : 'Istirahat dimulai'}')" ${restOn ? '' : 'disabled'}>${rr ? 'Stop istirahat' : 'Mulai istirahat'}</button>
- ${d && !rr ? '<a class="tml mut" onclick="ad({a:\'reopen\'},\'Kunci dibuka\')">Salah pencet? Buka kunci ronde</a>' : ''}</div>`;
+ ${d && !rr ? '<a class="tml mut" onclick="ad({a:\'reopen\'},\'Kunci dibuka\')">Salah pencet? Buka kunci ronde</a>' : ''}</div></div>`;
 }
 function board(s) {
     const c = s.calc, b = s.bout, cur = s.round;
-    let h = `<div class=hd><b>${esc(b.red.n) || 'Sudut merah'}</b><span>${b.no ? 'Partai ' + esc(b.no) : ''}</span><b>${esc(b.blue.n) || 'Sudut biru'}</b></div><p class=mut>Ronde ${cur} ${s.done[cur] ? 'selesai' : timer(s)}${rleft(s) >= 0 ? ' · Istirahat ' + fmt(rleft(s)) : ''}</p>`;
+    let h = `<div class=hd><b>${esc(b.red.n) || 'Sudut merah'}</b><span>${b.no ? 'Partai ' + esc(b.no) : ''}</span><b>${esc(b.blue.n) || 'Sudut biru'}</b></div><div class=bd><div><p class=mut>Ronde ${cur} ${s.done[cur] ? 'selesai' : timer(s)}${rleft(s) >= 0 ? ' · Istirahat ' + fmt(rleft(s)) : ''}</p>`;
     for (let j = 0; j < 5; j++) {
         const v = c.rounds[cur].J[j].raw;
         h += `<div class=jr><span>Juri ${j + 1}</span><span class="rd n">${v[0]}</span><span>–</span><span class="bl n">${v[1]}</span></div>`;
     }
-    h += `<p class=mut>Riwayat semua ronde dan total</p><table><tr><th>Ronde<th>J1<th>J2<th>J3<th>J4<th>J5<th>Skor</tr>`;
+    h += `</div><div><p class=mut>Riwayat semua ronde dan total</p><table><tr><th>Ronde<th>J1<th>J2<th>J3<th>J4<th>J5<th>Skor</tr>`;
     for (let r = 1; r <= 3; r++) {
         const R = c.rounds[r];
         const pn = R.pot[0] || R.pot[1] ? ` <span class=mut style="font-size:11px">(potongan ${R.pot.join('-')})</span>` : '';
         h += `<tr><td>Ronde ${r}` + R.J.map(x => `<td>${x.raw[0] + x.raw[1] ? x.raw.join('-') : '–'}`).join('') + `<td><b>${s.done[r] ? R.s.join('-') : '–'}</b>${s.done[r] ? pn : ''}</tr>`;
     }
-    return h + `</table><div class=tot><div>Total mentah<b>${c.mentah.join(' - ')}</b></div><div>Skor akhir<b>${c.tot.join(' - ')}</b></div></div>`;
+    return h + `</table><div class=tot><div>Total mentah<b>${c.mentah.join(' - ')}</b></div><div>Skor akhir<b>${c.tot.join(' - ')}</b></div></div></div></div>`;
 }
 
 /* ---------- ADMIN ---------- */
@@ -1068,7 +1262,7 @@ const MT = [['no', 'Nomor partai'], ['nomor', 'Nomor pertandingan'], ['babak', '
 const inp = f => `<label>${f[1]}<input id="f_${f[0]}"></label>`, g = i => $('#f_' + i).value.trim(), clr = () => MT.forEach(f => $('#f_' + f[0]).value = '');
 function admin() {
     filled = 0;
-    A.innerHTML = `<div class=pad><div class=bar><span class=hrow><img class=hlogo alt="" src="${GSM_LOGO}"><b id=ev></b></span>${BK}</div><div id=pins class="card mut"></div>
+    A.innerHTML = `<div class="pad adm"><div class=bar><span class=hrow><img class=hlogo alt="" src="${GSM_LOGO}"><b id=ev></b></span>${BK}</div><div id=pins class="card mut"></div>
  <details><summary>Data event</summary><div class=fg>${EV.map(inp).join('')}<label>Skor ronde ke layar TV saat ronde selesai<select id=f_rv style="display:block;width:100%;margin-top:4px;padding:12px;border:1px solid var(--sand);border-radius:10px;background:#fff8ee;font:inherit"><option value=delay>Tampil otomatis setelah jeda</option><option value=manual>Ditahan, admin yang menampilkan</option><option value=now>Langsung tampil</option></select></label><label><input type=checkbox id=f_k8m> Boleh 10-8 / 8-10 karena unggul dominan (selisih ketukan juri)</label><label><input type=checkbox id=f_k8k> Boleh 10-8 / 8-10 karena potongan poin (Warning/Knockdown)</label><label><input type=checkbox id=f_iauto> Putar intro di TV otomatis saat data pertandingan dipasang</label><label><input type=checkbox id=f_oauto> Putar video opening otomatis (sekali saja, di partai pertama; intro menyusul setelah opening selesai)</label><label><input type=checkbox id=f_wauto> Putar video pengumuman pemenang di TV otomatis</label></div>
  <p class=mut style="font-size:13px;margin:6px 0 0">Kalau dua-duanya dimatikan, skor ronde dipatok 10-9 atau 10-10 saja, apapun yang terjadi.</p>
  <button class=pri onclick=sv(0)>Simpan data event</button></details>
@@ -1100,15 +1294,15 @@ function admin() {
  <div class=card><b>Layar TV</b><br><button id=bshow onclick="ad({a:'show'},r=>r.show?'Skor tampil di TV':'Skor disembunyikan dari TV')"></button><button id=bkeep onclick="ad({a:'keep'},r=>r.keep?'Skor tetap tampil saat ronde berikutnya':'Skor disembunyikan saat ronde dimulai')"></button><button id=bfin onclick="ad({a:'final'},r=>r.final?'Pemenang diumumkan di TV':'Pengumuman pemenang dibatalkan')"></button><button id=bwauto onclick="ad({a:'set',wauto:st.wauto===false},r=>r.wauto!==false?'Video pengumuman AKTIF':'Video pengumuman MATI (pemenang langsung tampil biasa)')"></button><button id=breveal class=pri onclick="ad({a:'reveal'},'Skor ditampilkan di TV')">Tampilkan skor ronde sekarang</button><p id=rvs class=mut style="margin:6px 0 0"></p><p id=tvst class=mut style="margin:6px 0 0"></p><div style="margin-top:8px"><button class=pri onclick=openTv()>Buka layar TV di jendela baru</button><button onclick=copyTv()>Salin tautan layar TV</button></div><p class=mut style="font-size:13px;margin:6px 0 0">Untuk mode Extend: buka layar TV di jendela baru, geser jendelanya ke monitor TV, lalu klik dua kali di layarnya untuk layar penuh. Panel admin ini tetap bisa dipakai untuk hal lain.</p>
  <p class=mut style="font-size:13px;margin:6px 0 0">Skor di TV: AKTIF = skor ronde yang sudah selesai tampil di layar penonton. Pemenang di TV: AKTIF = tulisan WIN muncul di sisi pemenang.</p></div>
  <div><button onclick=result()>Buat result</button><button onclick="ask('Mulai pertandingan baru? Skor semua ronde akan dihapus.',()=>{filled=0;clr();ad({a:'newbout'},'Pertandingan baru dimulai')})">Pertandingan baru</button></div>
- <details><summary>Riwayat pertandingan (event ini)</summary><div id=hist class=mut>Klik "Muat riwayat" untuk melihat hasil partai yang sudah selesai.</div><button onclick=loadHist()>Muat riwayat</button><button id=bhpdf class=pri onclick=histDoc()>Buat PDF riwayat</button></details>
- <details ontoggle="if(this.open)impStat()"><summary>Impor peserta bagan dan jadwal partai dari file</summary><p class=mut style="font-size:13px;margin:4px 0">Tidak perlu mengisi Google Sheet sendiri. Unggah file Excel (.xlsx) atau CSV dari laptop. Data tersimpan otomatis dan hanya berlaku untuk event ini. Urutan kolom bebas selama baris judulnya jelas (lihat contoh format).</p><div id=imps class=mut></div>
+ <details class=wide><summary>Riwayat pertandingan (event ini)</summary><div id=hist class=mut>Klik "Muat riwayat" untuk melihat hasil partai yang sudah selesai.</div><button onclick=loadHist()>Muat riwayat</button><button id=bhpdf class=pri onclick=histDoc()>Buat PDF riwayat</button></details>
+ <details class=wide ontoggle="if(this.open)impStat()"><summary>Impor peserta bagan dan jadwal partai dari file</summary><p class=mut style="font-size:13px;margin:4px 0">Tidak perlu mengisi Google Sheet sendiri. Unggah file Excel (.xlsx) atau CSV dari laptop. Data tersimpan otomatis dan hanya berlaku untuk event ini. Urutan kolom bebas selama baris judulnya jelas (lihat contoh format).</p><div id=imps class=mut></div>
  <div style="margin-top:8px"><b>1. Peserta bagan</b></div><p class=mut style="font-size:13px;margin:2px 0">Kolom: kategori, nama, daerah. Urutan peserta = urutan undian.</p>
  <input id=imp_peserta type=file accept=".csv,.xlsx,.xls"><label>Cara impor<select id=impm_peserta style="display:block;width:100%;margin-top:4px;padding:12px;border:1px solid var(--sand);border-radius:10px;background:#fff8ee;font:inherit"><option value=ganti>Ganti semua data impor peserta event ini</option><option value=tambah>Tambahkan ke data yang sudah ada</option></select></label>
  <button class=pri onclick="impFile('peserta')">Impor peserta</button><button onclick="tplDownload('peserta')">Unduh contoh format</button><button onclick="impDel('peserta')">Hapus data impor</button>
  <div style="margin-top:12px"><b>2. Jadwal partai (data pertandingan)</b></div><p class=mut style="font-size:13px;margin:2px 0">Kolom: partai, kategori, babak, ring, merah, daerah merah, biru, daerah biru. Dipakai tombol Ambil dari daftar partai, dan nomor partai di bagan terisi otomatis kalau kategori dan nama atletnya cocok.</p>
  <input id=imp_jadwal type=file accept=".csv,.xlsx,.xls"><label>Cara impor<select id=impm_jadwal style="display:block;width:100%;margin-top:4px;padding:12px;border:1px solid var(--sand);border-radius:10px;background:#fff8ee;font:inherit"><option value=ganti>Ganti semua jadwal impor event ini</option><option value=tambah>Tambahkan ke jadwal yang sudah ada</option></select></label>
  <button class=pri onclick="impFile('jadwal')">Impor jadwal</button><button onclick="tplDownload('jadwal')">Unduh contoh format</button><button onclick="impDel('jadwal')">Hapus data impor</button></details>
- <details><summary>Bagan dan hasil seluruh partai</summary><p class=mut style="font-size:13px;margin:4px 0">Peserta per kategori diambil dari sheet PESERTA (kolom: kategori, nama, daerah, event opsional). Kalau kategori tidak ada di sheet, dipakai yang diketik di aplikasi. Urutan peserta = urutan undian.</p><button class=pri onclick=loadBrk()>Muat bagan</button><div id=brk class=mut></div></details>
+ <details class=wide><summary>Bagan dan hasil seluruh partai</summary><p class=mut style="font-size:13px;margin:4px 0">Peserta per kategori diambil dari sheet PESERTA (kolom: kategori, nama, daerah, event opsional). Kalau kategori tidak ada di sheet, dipakai yang diketik di aplikasi. Urutan peserta = urutan undian.</p><button class=pri onclick=loadBrk()>Muat bagan</button><div id=brk class=mut></div></details>
  <div id=live></div></div>`;
 }
 async function loadHist() {
