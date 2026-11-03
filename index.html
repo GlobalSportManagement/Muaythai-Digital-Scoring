@@ -1607,7 +1607,6 @@ function judge() {
  <button class="cn l" onclick=un(0)>−</button><button class="cn r" onclick=un(1)>−</button><button class=mn onclick="$('#mnu').hidden=0">Menu</button>
  <div id=mnu hidden>${[['Kembali', 'leave(pickJ)'], ['Exit', 'leave(home)'], ['Close', "$('#mnu').hidden=1"], ['Font', 'fs=fs>1.3?.8:fs+.25;show()'], ['Break', "brk=!brk;$('#mnu').hidden=1;show()"], ['Buzzer', 'snd(0)'], ['Whistle', 'snd(1)'], ['How to use', "ask('Ketuk sisi merah atau biru untuk menambah poin. Tombol − di pojok bawah mengurangi poin. Skor terkirim otomatis ke admin.')"], ['Reset', "ask('Reset poin ronde ini?',rs)"]].map(x => `<button onclick="${x[1]}">${x[0]}</button>`).join('')}</div><div id=ov hidden></div><div class=jcr>${$('#cr').innerHTML}</div></div>`;
 }
-const waitR = s => !!s && !s.done[s.round] && !(s.tEnd || s.pLeft) && !(s.began && s.began[s.round]); /* ronde belum dimulai admin */
 function show() {
     [0, 1].forEach(i => {
         const e = $(i ? '#b' : '#a');
@@ -1617,12 +1616,11 @@ function show() {
     $('#jd').style.setProperty('--fs', fs);
     const d = st && st.done[st.round], o = $('#ov');
     $('#jt').textContent = st ? `Ronde ${st.round} · Juri ${S.j} ${timer(st)}` : '';
-    const w = waitR(st);
-    o.hidden = !(d || brk || w);
-    o.textContent = brk ? 'BREAK' : d ? `Ronde ${st.round} selesai` : w ? `Menunggu ronde ${st.round} dimulai` : '';
+    o.hidden = !(d || brk);
+    o.textContent = brk ? 'BREAK' : d ? `Ronde ${st.round} selesai` : '';
 }
 function tap(s) {
-    if (!st || st.done[st.round] || brk || waitR(st))
+    if (!st || st.done[st.round] || brk)
         return;
     mine[s]++;
     show();
@@ -1633,7 +1631,7 @@ function tap(s) {
     navigator.vibrate && navigator.vibrate(15);
 }
 function un(s) {
-    if (!st || st.done[st.round] || waitR(st) || !mine[s])
+    if (!st || st.done[st.round] || !mine[s])
         return;
     mine[s]--;
     show();
